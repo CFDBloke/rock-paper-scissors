@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            function computerPlay() {
+                let randomNumber = Math.random();
+
+                if (randomNumber < (1 / 3)) {
+                    return "rock";
+                } else if (randomNumber > (1 / 3) && randomNumber < ( 2 / 3)) {
+                    return "paper";
+                } else {
+                    return "scissors";
+                }
+            }
+
+            function checkValid(playSelection) {
+                if (playerSelection != "rock" || playerSelection != "paper" || playerSelection != "scissors") {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function playRound(playerSelection, computerSelection) {
+            
+                switch (playerSelection) {
+                    case "rock":
+                        switch (computerSelection) {
+                            case "rock":
+                                return "It's a draw!";
+                            case "paper":
+                                return "You Lose! Paper covers Rock";
+                            case "scissors":
+                                return "You Win! Rock smashes Scissors";
+                        }
+                    case "paper":
+                        switch (computerSelection) {
+                            case "rock":
+                                return "You Win! Paper covers Rock";
+                            case "paper":
+                                return "It's a draw!";
+                            case "scissors":
+                                return "You Win! Rock smashes Scissors";
+                        }
+                    case "scissors":
+                        switch (computerSelection) {
+                            case "rock":
+                                return "You Lose! Rock smashes Scissors";
+                            case "paper":
+                                return "You Win! Scissors cut Paper";
+                            case "scissors":
+                                return "It's a draw!";
+                        }
+                }
+            }
+
+            const playerSelection = (prompt("Please choose Rock, Paper or Scissors:").toLowerCase());
+
+            if (!checkValid(playerSelection)) {
+                console.log("Invalid selection, please try again");
+            } else {
+
+                const computerSelection = computerPlay();
+
+                console.log(`The computer chose ${computerSelection}`);
+                console.log(playRound(playerSelection, computerSelection));
+
+            }
+
+        </script>
+    </body>
+</html>
