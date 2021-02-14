@@ -14,11 +14,11 @@
                 }
             }
 
-            function checkValid(playSelection) {
+            function checkValid(playerSelection) {
                 if (playerSelection != "rock" || playerSelection != "paper" || playerSelection != "scissors") {
-                    return false;
-                } else {
                     return true;
+                } else {
+                    return false;
                 }
             }
 
@@ -41,7 +41,7 @@
                             case "paper":
                                 return "It's a draw!";
                             case "scissors":
-                                return "You Win! Rock smashes Scissors";
+                                return "You Lose! Scissors cut Paper";
                         }
                     case "scissors":
                         switch (computerSelection) {
@@ -55,18 +55,82 @@
                 }
             }
 
-            const playerSelection = (prompt("Please choose Rock, Paper or Scissors:").toLowerCase());
+            function game() {
 
-            if (!checkValid(playerSelection)) {
-                console.log("Invalid selection, please try again");
-            } else {
+                // Initialise scores
+                let playerScore = 0;
+                let computerScore = 0;
+            
+                for (let i = 1; i <= 5; i++) {
+                    
+                    // Ask the player for their selection
+                    let playerSelection = (prompt(`Round ${i}: Please choose Rock, Paper or Scissors:`));
 
-                const computerSelection = computerPlay();
+                    // If the player hit the cancel button then..
+                    if (playerSelection == null) {
+                        // Exit the function
+                        return "Player ended game early";
+                    }
 
-                console.log(`The computer chose ${computerSelection}`);
-                console.log(playRound(playerSelection, computerSelection));
+                    // Convert the play selected string to lower case
+                    playerSelection = playerSelection.toLowerCase();
 
+                    // Check that the players selection is valid
+                    if (!checkValid(playerSelection)) {
+                        // Notify the player of the invalid selection
+                        console.log("Invalid selection, please try again");
+                        // Decrenent the i value to make this round void
+                        i = i-1;
+                    } else {
+
+                        // Ask the computer for their selection
+                        const computerSelection = computerPlay();
+
+                        // Let the player know what selection the computer made
+                        console.log(`The computer chose ${computerSelection}`);
+
+                        // Play the round
+                        let result = playRound(playerSelection, computerSelection);
+
+                        // Notify the play the result of the round
+                        console.log(result);
+
+                        // Search the result for the key words 'Win' or 'Lose'
+                        let outcomeWin = result.search("Win");
+                        let outcomeLose = result.search("Lose");
+
+                        // If the word 'Win' is found...
+                        if (outcomeWin != -1) {
+                            // Increment the players score...
+                            playerScore = playerScore+1;
+                        // Else if the word 'Lose' is found...
+                        } else if (outcomeLose != -1 ){
+                            // Increment the computers score...
+                            computerScore = computerScore+1;
+                        // Otherwise, if neither words are found then it must be a 'Draw'...
+                        } else {
+                            //Decrenent the i value to make this round void
+                            i = i-1;
+                        }
+
+                        // Notify the player of the current score
+                        console.log(`The current score is: Player ${playerScore} vs. Computer ${computerScore}`)
+
+                    }
+                }
+
+                // Workout who has won
+                if (playerScore > computerScore) {
+                    return "Player Wins, congratulations!";
+                } else if (playerScore < computerScore) {
+                    return "Player Loses, sorry!";
+                } else {
+                    return "The Game is a Draw!"
+                }
             }
+
+            // Start the game
+            console.log(game());
 
         </script>
     </body>
